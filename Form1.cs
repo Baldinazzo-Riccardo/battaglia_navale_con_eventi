@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -74,24 +75,27 @@ namespace battConEventi
 
         private void collegaEventi(GrigliaGioco g, DataGridView dgv)
         {
-            g.OnColpita += (x, y) =>
+            g.OnColpita += (x, y, log) =>
             {
                 DgvBuilder.Colora(dgv, x, y, Color.Red);
-                
+                lst_log.Items.Add(log);
+                AudioPlayer("explosion.wav");
             };
 
-            g.OnAcqua += (x, y) =>
+            g.OnAcqua += (x, y, log) =>
             {
                 DgvBuilder.Colora(dgv, x, y, Color.LightBlue);
-                
+                lst_log.Items.Add(log);
+                AudioPlayer("splash.wav");
             };
 
-            g.OnAffondata += (nave) =>
+            g.OnAffondata += (nave, log) =>
             {
                 foreach (var c in nave.Coordinate)
                     DgvBuilder.Colora(dgv, c.x, c.y, Color.Black);
 
-                
+                lst_log.Items.Add(log);
+                AudioPlayer("impact.wav");
             };
         }
 
@@ -256,8 +260,8 @@ namespace battConEventi
             bool affondataPrima = false;
 
             // intercettiamo gli eventi per capire cosa è successo
-            void colpita(int a, int b) { colpitoPrima = true; }
-            void affondata(CNave n) { affondataPrima = true; }
+            void colpita(int a, int b, string log) { colpitoPrima = true; }
+            void affondata(CNave n, string log) { affondataPrima = true; }
 
             grigliaPlayer.OnColpita += colpita;
             grigliaPlayer.OnAffondata += affondata;
@@ -293,7 +297,18 @@ namespace battConEventi
             return true;
         }
 
-        
+        private void AudioPlayer(string nomeFile)
+        {
+            try
+            {
+                SoundPlayer player = new SoundPlayer(nomeFile);
+                player.Play();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Err: {ex.Message}");
+            }
+        }
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -345,7 +360,7 @@ namespace battConEventi
                 }
 
 
-
+               
                 turnoGiocatore = false;
 
                 lblTurno.Text = "Turno: Giocatore 1";

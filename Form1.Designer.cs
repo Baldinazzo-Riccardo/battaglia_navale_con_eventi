@@ -21,6 +21,7 @@
             this.dgvEnemy = new System.Windows.Forms.DataGridView();
             this.btnStart = new System.Windows.Forms.Button();
             this.lblTurno = new System.Windows.Forms.Label();
+            this.lst_log = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlayer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEnemy)).BeginInit();
             this.SuspendLayout();
@@ -63,9 +64,19 @@
             this.lblTurno.TabIndex = 3;
             this.lblTurno.Text = "Turno: Nessuno";
             // 
+            // lst_log
+            // 
+            this.lst_log.FormattingEnabled = true;
+            this.lst_log.ItemHeight = 20;
+            this.lst_log.Location = new System.Drawing.Point(921, 53);
+            this.lst_log.Name = "lst_log";
+            this.lst_log.Size = new System.Drawing.Size(195, 404);
+            this.lst_log.TabIndex = 4;
+            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(920, 500);
+            this.ClientSize = new System.Drawing.Size(1132, 500);
+            this.Controls.Add(this.lst_log);
             this.Controls.Add(this.dgvPlayer);
             this.Controls.Add(this.dgvEnemy);
             this.Controls.Add(this.btnStart);
@@ -81,6 +92,8 @@
             this.PerformLayout();
 
         }
+
+        private System.Windows.Forms.ListBox lst_log;
     }
 }
 

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace battConEventi
 {
     public class GrigliaGioco
     {
         public const int SIZE = 10;
-
+        string log;
         public List<CNave> Navi { get; private set; }
         public bool[,] CelleUsate { get; private set; }
 
         // EVENTI RICHIESTI
-        public event Action<int, int> OnColpita;
-        public event Action<CNave> OnAffondata;
-        public event Action<int, int> OnAcqua;
+        public event Action<int, int, string> OnColpita;
+        public event Action<CNave, string> OnAffondata;
+        public event Action<int, int, string> OnAcqua;
 
         public GrigliaGioco()
         {
@@ -71,17 +72,22 @@ namespace battConEventi
             {
                 if (nave.Colpisci(x, y))
                 {
+                    log = $"Colpito in posizione ({x}, {y})";
                     //evento colpita
-                    OnColpita?.Invoke(x, y);
+                    OnColpita?.Invoke(x, y, log);
+
 
                     if (nave.ÈAffondata)
-                        OnAffondata?.Invoke(nave);
+                    {
+                        log = $"Nave affondata";
+                        OnAffondata?.Invoke(nave, log);
+                    }
 
                     return;
                 }
             }
-
-            OnAcqua?.Invoke(x, y);
+            log = $"Acqua";
+            OnAcqua?.Invoke(x, y, log);
         }
     }
 }

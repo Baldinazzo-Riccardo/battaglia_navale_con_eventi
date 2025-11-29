@@ -24,7 +24,9 @@ namespace battConEventi
                 for (int y = 0; y < GrigliaGioco.SIZE; y++)
                     attacchiDisponibili.Add((x, y));
         }
+        //su funzioni seguenti si poteva usare Point al posto di tupla
 
+        //per rimuoverre mossa casuale 
         private (int x, int y) RimuoviCasuale()
         {
             int i = rnd.Next(attacchiDisponibili.Count);
@@ -76,7 +78,7 @@ namespace battConEventi
                 stato = StatoRicerca.Target;
                 ultimoColpo = (x, y);
 
-                // aggiungi celle adiacenti
+                // aggiungi celle adiacenti a coda da usare
                 AggiungiSeValida(x + 1, y);
                 AggiungiSeValida(x - 1, y);
                 AggiungiSeValida(x, y + 1);
